@@ -1,0 +1,72 @@
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    body {
+        background: url(./assets/img2.jpg);
+        background-size: cover;
+        font-family: "Poppins", serif;
+        margin: 0;
+        font-size: 20px;
+        color: white;
+    }
+
+    header {
+        text-align: center;
+        margin: 20px;
+    }  
+    
+    .container {
+        width: 90%;
+        max-width: 600px;
+        background-color: rgba(0,0,0,0.7);
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    section h2 {
+        text-align: center;
+    }
+
+    .tarefas {
+        margin-top: 20px;
+    }
+
+    .caixa-tarefas {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+    }   
+
+    .tarefa {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background-color: rgb(62, 114, 71);
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        margin: 10px;
+    }
+ 
+    .tarefa:hover {
+        background-color: rgb(50, 92, 58); 
+    }
+
+    .add-tarefa {
+        margin: 10px;
+        padding: 20px 15rem;
+        background-color: rgb(62, 114, 71); 
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px; 
+    }
+    
+    
