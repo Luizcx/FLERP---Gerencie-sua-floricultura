@@ -1,56 +1,91 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financeiro - FLERP</title>
     <link rel="stylesheet" href="../Styles/financeiro.css">
 </head>
+
 <body>
     <header>
         <h1>Financeiro - FLERP</h1>
     </header>
 
     <main class="container">
-        <section class="resumo">
-            <h2>Resumo Financeiro</h2>
-            <p><strong>Vendas Totais:</strong> R$ 10.000</p>
-            <p><strong>Despesas Totais:</strong> R$ 5.000</p>
-            <p><strong>Lucro Líquido:</strong> R$ 5.000</p>
-            <p><strong>Vendas do Dia:</strong> R$ 1.500</p>
-            <p><strong>Vendas do Mês:</strong> R$ 8.000</p>
+        <section class="cards-financeiros">
+            <div class="card">
+                <h3>Entradas</h3>
+                <p>R$ 20.000</p>
+
+
+            </div>
+
+            <div class="card">
+                <h3>Saídas</h3>
+                <p>R$ 15.000</p>
+
+
+            </div>
+
+            <div class="card">
+                <h3>Lucro</h3>
+                <p>R$ 5.000</p>
+
+            </div>
         </section>
 
-        <section class="graficos">
-            <h2>Gráficos de Vendas e Despesas</h2>
-        </section>
+        <div class="content-container">
+            <div class="button-container">
+                <button>Entrada</button>
+                <button>Saída</button>
+                <button>Total</button>
+                <button id="relatorio">Gerar relatorio </button>
+                <button id="novo">Novo</button>
+            </div>
+        </div>
 
-        <section class="transacoes">
-            <h2>Transações Recentes</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Data</th>
-                        <th>Descrição</th>
-                        <th>Valor</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>24/05/2004</td>
-                        <td>Venda de Rosas</td>
-                        <td>R$ 200,00</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+        <table class="tabela-financeira">
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
 
-        <section class="botoes">
-            <button>Adicionar Venda</button>
-            <button>Adicionar Despesa</button>
-            <button>Gerar Relatório</button>
-        </section>
+            <tbody>
+                <tr>
+                    <td>Semente de Flor</td>
+                    <td>R$ 20,00</td>
+                    <td>Entrada</td>
+                </tr>
+
+                <tr>
+                    <td>Flor crescida</td>
+                    <td>R$ 60,00</td>
+                    <td>Entrada</td>
+                </tr>
+
+                <tr>
+                    <td>Salario</td>
+                    <td>R$ 1.500,00</td>
+                    <td>Saída</td>
+                </tr>
+
+                <tr>
+                    <td>Tulipa</td>
+                    <td>R$ 200,00</td>
+                    <td>Entrada</td>
+                </tr>
+            </tbody>
+        </table>
+        
     </main>
+
+    <a href="index.html"><button id="voltar">Voltar</button></a>
+
 </body>
+
 </html>
