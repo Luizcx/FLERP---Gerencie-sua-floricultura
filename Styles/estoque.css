@@ -1,86 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 body {
-    background: url(./assets/img2.jpg);
-    background-size: cover;
-    font-family: "Poppins", serif;
+    background-color: rgb(240, 237, 237);
+    font-family: "Poppins", sans-serif;
     margin: 0;
-    color: white;
+    color: black;
+    font-weight: 100;
+    line-height: 1.7;
 }
 
 header {
+    display: flex;
     text-align: center;
-    margin: 20px;
+    background-color: #6cd856;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    flex: 1;
+    text-align: center;
+    font-size: 2em;
+    color: white;
+    font-weight: 600;
+    margin: 0;
+}
+
+.voltar {
+    padding: 10px 20px;
+    border: 2px solid white;
+    border-radius: 5px;
+    background-color: transparent;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.voltar:hover {
+    background-color: white;
+    color: #6cd856;
 }
 
 .container {
-    width: 90%;
-    max-width: 800px;
-    background-color: rgba(0, 0, 0, 0.7);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.resumo {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.resumo .card {
+    flex: 1;
+    background-color: white;
     border-radius: 10px;
     padding: 20px;
-    margin: 20px auto;
-}
-
-h1 {
-    margin: 10px 0;
-}
-
-h2 {    
     text-align: center;
+    color: black;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.resumo p {
-    font-size: 18px;
-    margin: 10px 0;
-    text-align: center;
+.resumo .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.resumo .card h3 {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.resumo .card p {
+    margin: 10px 0 0;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.produtos {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
+    margin-top: 40px;
+}
+
+.produtos h2 {
+    color: rgb(77, 76, 76);
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 20px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 10px 0;
+    margin-top: 20px;
+}
+
+thead {
+    background-color: #6cd856;
+    color: white;
 }
 
 th, td {
-    border: 1px solid white;
-    padding: 10px;
+    padding: 15px;
     text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
 th {
-    background-color: rgb(62, 114, 71);
+    font-weight: 500;
 }
 
-button {
-    background-color: rgb(50, 92, 58);
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
-button:hover {
-    background-color: rgb(62, 114, 71);
+.crud-align {
+    display: flex;
+    justify-content: center;
 }
 
 .CRUD {
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-    margin-top: 20px;  
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .CRUD button {
-    background-color: rgb(62, 114, 71);
+    background-color: #519e41;
     color: white;
     border: none;
-    padding: 10px 20px; 
-    border-radius: 5px;
+    border-radius: 10px;
+    padding: 15px 30px;
     cursor: pointer;
-    margin: 5px; 
-    transition: background-color 0.3s;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .CRUD button:hover {
-    background-color: rgb(50, 92, 58);
+    background-color: rgb(49, 88, 55);
+    transform: translateY(-2px);
+}
+
+.resumo p strong {
+    font-size: 1.2em;
+    color: #ffffffcc;
 }
