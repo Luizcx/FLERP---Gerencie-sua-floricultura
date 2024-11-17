@@ -92,6 +92,18 @@ header h1 {
     margin-top: 40px;
 }
 
+.produtos th {
+    text-align: left; 
+    background-color: #6cd856; 
+    color: white;
+    font-weight: 700px;
+}
+
+.produtos td {
+        font-size: 1.1em;
+        font-weight: 300;
+}
+
 .produtos h2 {
     color: rgb(77, 76, 76);
     font-weight: 500;
