@@ -1,61 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FLERP - seu sistema de gerenciamento de floricultura</title>
     <link rel="stylesheet" href="../Styles/tarefas.css">
 </head>
-
 <body>
     <header>
         <h1>Tarefas - FLERP</h1>
         <button class="voltar" onclick="window.location.href='index.html'">Voltar</button>
     </header>
-
     <div class="container">
         <main>
-            
             <section class="tarefas">
                 <h2>Tarefas pendentes</h2>
-                <div class="caixa-de-tarefas">
-                    <div class="tarefa">
-                        <p>Regar Plantas</p>
-                        <input type="checkbox">
-                    </div>
-
-                    <div class="tarefa">
-                        <p>Regar as plantas</p>
-                        <input type="checkbox">
-                    </div>
-
-                    <div class="tarefa">
-                        <p>Fertilizar as Plantas</p>
-                        <input type="checkbox">
-                    </div>
-
-                    <div class="tarefa">
-                        <p>Podar as plantas</p>
-                        <input type="checkbox">
-                    </div>
-
-                    <div class="tarefa">
-                        <p>Trocar adubo</p>
-                        <input type="checkbox">
-                    </div>
-                    <div class="button-container">
-                        <button class="add-tarefa">Adicionar Tarefa</button>
-                    </div>
-
-
+                <div class="caixa-de-tarefas" id="tarefasContainer">
+                    <!-- Tarefas serão adicionadas aqui dinamicamente -->
                 </div>
-
+                <div class="button-container">
+                    <button class="add-tarefa" id="novaTarefaBtn">Adicionar Tarefa</button>
+                </div>
             </section>
         </main>
     </div>
 
+    <!-- Modal para nova tarefa -->
+    <div class="modal" id="novaTarefaModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Nova Tarefa</h2>
+            <form id="novaTarefaForm">
+                <div class="input-group">
+                    <label for="nomeTarefa">Nome da Tarefa:</label>
+                    <input type="text" id="nomeTarefa" required>
+                </div>
+                <div class="input-group">
+                    <label for="dataConclusao">Data de Conclusão:</label>
+                    <input type="date" id="dataConclusao" required>
+                </div>
+                <div class="input-group checkbox">
+                    <input type="checkbox" id="tarefaDiaria">
+                    <label for="tarefaDiaria">Tarefa Diária</label>
+                </div>
+                <button type="submit" class="adicionar">Adicionar</button>
+            </form>
+        </div>
+    </div>
 
+    <script src="../js/tarefas.js"></script>
 </body>
-
 </html>

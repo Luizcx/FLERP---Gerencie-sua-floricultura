@@ -15,7 +15,7 @@ header {
     background-color: #6cd856;
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -97,6 +97,11 @@ section h2 {
     font-weight: 300;
 }
 
+.tarefa.concluida p {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
 .tarefa input[type="checkbox"] {
     width: 20px;
     height: 20px;
@@ -123,4 +128,82 @@ section h2 {
 .add-tarefa:hover {
     background-color: rgb(49, 88, 55);
     transform: translateY(-2px);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: black;
+}
+
+.modal-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-group input[type="text"],
+.input-group input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.input-group.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-content .adicionar {
+    width: 100%;
+    padding: 10px;
+    background-color: #6cd856;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-content .adicionar:hover {
+    background-color: #519e41;
 }
