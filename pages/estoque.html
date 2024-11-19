@@ -4,57 +4,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estoque - FLERP</title>
+    <title>Sistema de Estoque</title>
     <link rel="stylesheet" href="../Styles/estoque.css">
 </head>
 
 <body>
-    <header>
-        <h1>Estoque - FLERP</h1>
-        <button class="voltar" onclick="window.location.href='index.html'">Voltar</button>
+    <header class="header">
+        <div class="logo">FLERP</div>
+        <div class="user-info">
+            <button class="logout-btn">Deslogar</button>
+        </div>
     </header>
 
-    <main class="container">
-        <section class="resumo">
-            <div class="card">
-                <h3>150</h3>
-                <p>Total de Produtos</p>
-            </div>
-            <div class="card">
-                <h3>10</h3>
-                <p>Produtos em Falta</p>
-            </div>
-        </section>
+    <nav class="breadcrumb">
+        <span>Home</span>
+        <span>/</span>
+        <span>Estoque</span>
+    </nav>
 
-        <section class="produtos">
-            <h2>Produtos em Estoque</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nome do Produto</th>
-                        <th>Quantidade</th>
-                        <th>Preço</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Tulipa</td>
-                        <td>50</td>
-                        <td>R$ 2,00</td>  
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <div class="crud-align">
-            <section class="CRUD">
-                <button type="submit">Adicionar Produto</button>
-                <button type="submit">pesquisar</button>
-                <button type="submit">Editar</button>
-                <button type="submit">Remover</button>
-            </section>
+    <div class="stats-container">
+        <div class="stat-card total-products">
+            <div class="stat-info">
+                <h3>Total de Produtos</h3>
+                <div class="stat-value">150</div>
+            </div>
+            <div class="stat-icon">📦</div>
         </div>
-    </main>
+
+        <div class="stat-card missing-products">
+            <div class="stat-info">
+                <h3>Produtos em Falta</h3>
+                <div class="stat-value">10</div>
+            </div>
+            <div class="stat-icon">⚠️</div>
+        </div>
+
+        <div class="stat-card total-value">
+            <div class="stat-info">
+                <h3>Valor Total em Estoque</h3>
+                <div class="stat-value">R$ 15.420,00</div>
+            </div>
+            <div class="stat-icon">💰</div>
+        </div>
+    </div>
+
+    <div class="actions-bar">
+        <div class="action-buttons">
+            <button class="add-btn">+ Adicionar Produto</button>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Buscar produtos...">
+        </div>
+    </div>
+
+    <section class="products-section">
+        <h2 class="products-title">Produtos em Estoque</h2>
+        <table class="products-table">
+            <thead>
+                <tr>
+                    <th>PRODUTO</th>
+                    <th>CÓDIGO</th>
+                    <th>QUANTIDADE</th>
+                    <th>PREÇO UNIT.</th>
+                    <th>STATUS</th>
+                    <th>AÇÕES</th>
+                </tr>
+            </thead>
+            <tbody id="productsTableBody">
+                <!-- Products will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+
+        <div class="pagination-container">
+            <div class="pagination-info">
+                Mostrando 1 até 10 de 97 resultados
+            </div>
+            <div class="pagination-buttons">
+                <button class="page-btn">&lt;</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">&gt;</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Produto -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Adicionar Produto</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <div class="form-group">
+                        <label for="produtoNome">Nome do Produto</label>
+                        <input type="text" id="produtoNome" name="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="produtoCodigo">Código</label>
+                        <input type="text" id="produtoCodigo" name="codigo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="produtoQuantidade">Quantidade</label>
+                        <input type="number" id="produtoQuantidade" name="quantidade" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="produtoPreco">Preço Unitário</label>
+                        <input type="number" id="produtoPreco" name="precoUnit" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="produtoStatus">Status</label>
+                        <select id="produtoStatus" name="status" required>
+                            <option value="Em estoque">Em estoque</option>
+                            <option value="Baixo estoque">Baixo estoque</option>
+                            <option value="Em falta">Em falta</option>
+                        </select>
+                    </div>
+                    <input type="hidden" id="produtoId" name="id">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn cancel-btn" onclick="fecharModal()">Cancelar</button>
+                <button type="button" class="btn save-btn" onclick="salvarProduto()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Importante: O script deve ser carregado após o HTML -->
+    <script src="../js/estoque.js"></script>
 </body>
 
 </html>

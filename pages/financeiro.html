@@ -50,41 +50,55 @@
         <table class="tabela-financeira">
             <thead>
                 <tr>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th>Tipo</th>
+                    <thead>
+                        <tr>
+                        </tr>
+                    </thead>
                 </tr>
             </thead>
 
             <tbody>
-                <tr>
-                    <td>Semente de Flor</td>
-                    <td>R$ 20,00</td>
-                    <td>Entrada</td>
-                </tr>
 
-                <tr>
-                    <td>Flor crescida</td>
-                    <td>R$ 60,00</td>
-                    <td>Entrada</td>
-                </tr>
-
-                <tr>
-                    <td>Salario</td>
-                    <td>R$ 1.500,00</td>
-                    <td>Saída</td>
-                </tr>
-
-                <tr>
-                    <td>Tulipa</td>
-                    <td>R$ 200,00</td>
-                    <td>Entrada</td>
-                </tr>
             </tbody>
         </table>
-        
+
     </main>
 
+    <!-- Adicione este HTML no final do seu <body>, antes do fechamento da tag -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Nova Transação</h2>
+            <form id="transacaoForm">
+                <div class="form-group">
+                    <label for="descricao">Descrição:</label>
+                    <input type="text" id="descricao" name="descricao" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="valor">Valor:</label>
+                    <input type="number" id="valor" name="valor" step="0.01" min="0" required>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>Tipo:</label>
+                    <div class="checkbox-container">
+                        <input type="radio" id="entrada" name="tipo" value="Entrada" checked>
+                        <label for="entrada">Entrada</label>
+
+                        <input type="radio" id="saida" name="tipo" value="Saída">
+                        <label for="saida">Saída</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn-save">Salvar</button>
+                    <button type="button" class="btn-cancel">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../js/financeiro.js"></script>
 </body>
 
 </html>
