@@ -1,3 +1,5 @@
+const conexao = require("./db");
+
 // Dados mockados para simular um banco de dados
 let produtos = [
     // Adicione mais produtos conforme necessário
@@ -12,14 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Elementos da página
     const searchInput = document.querySelector('.search-input');
     const addBtn = document.querySelector('.add-btn');
-    const logoutBtn = document.querySelector('.logout-btn');
+    const voltarBtn = document.querySelector('.voltar-btn');
     const tableBody = document.getElementById('productsTableBody');
     const paginationButtons = document.querySelector('.pagination-buttons');
 
     // Event Listeners
     searchInput.addEventListener('input', handleSearch);
     addBtn.addEventListener('click', showAddProductModal);
-    logoutBtn.addEventListener('click', handleLogout);
+    voltarBtn.addEventListener('click', handleLogout);
     
     // Inicialização
     atualizarEstatisticas();
@@ -161,10 +163,8 @@ function deletarProduto(id) {
 }
 
 function handleLogout() {
-    if (confirm('Deseja realmente sair?')) {
         // Implementar lógica de logout
-        window.location.href = 'login.html';
-    }
+        window.location.href = 'index.html';
 }
 
 function fecharModal() {
@@ -212,3 +212,88 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+function obterProdutos() {
+    return new Promise((resolve, reject) => {
+      const query = 'SELECT * FROM estoque';
+      conexao.query(query, (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+}
+  
+function adicionarProduto(produto) {
+    return new Promise((resolve, reject) => {
+      const query = 'INSERT INTO estoque (id, nome, qtde, preco, status) VALUES (?, ?, ?, ?, ?)';
+      conexao.query(query, [estoque.nome, estoque.qtde, estoque.preco, estoque.status], (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+}
+
+
+function renderizarProdutos() {
+    obterProdutos().then(produtos => {
+      const tableBody = document.getElementById('estoqueTableBody');
+      const inicio = (paginaAtual - 1) * itensPorPagina;
+      const fim = inicio + itensPorPagina;
+      const produtosPaginados = produtos.slice(inicio, fim);
+  
+      tableBody.innerHTML = '';
+  
+      produtosPaginados.forEach(produto => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${estoque.nome}</td>
+            <td>${estoque.id}</td>
+            <td>${estoque.qtde}</td>
+            <td>R$ ${estoque.preco.toFixed(2)}</td>
+            <td><span class="status-badge ${getStatusClass(estoque.status)}">${estoque.status}</span></td>
+            <td>
+                <button class="action-btn edit" onclick="editarProduto(${estoque.id})">✏️</button>
+                <button class="action-btn delete" onclick="deletarProduto(${estoque.id})">🗑️</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+      });
+  
+      atualizarInfoPaginacao(estoque.length);
+    }).catch(err => {
+      console.error('Erro ao carregar os produtos:', err);
+    });
+  }
+  
+  function salvarProduto() {
+    const form = document.getElementById('estoqueForm');
+    const formData = new FormData(form);
+    const produtoData = Object.fromEntries(formData);
+    
+    // Converte valores numéricos
+    produtoData.quantidade = parseInt(produtoData.qtde);
+    produtoData.precoUnit = parseFloat(produtoData.preco);
+    
+    if (produtoData.id) {
+      // Atualiza produto existente
+      editarProduto(produtoData.id, produtoData).then(() => {
+        renderizarProdutos();
+        atualizarEstatisticas();
+        fecharModal();
+      }).catch(err => console.error('Erro ao atualizar produto:', err));
+    } else {
+      // Adiciona novo produto
+      adicionarProduto(produtoData).then(() => {
+        renderizarProdutos();
+        atualizarEstatisticas();
+        fecharModal();
+      }).catch(err => console.error('Erro ao adicionar produto:', err));
+    }
+  }
+  

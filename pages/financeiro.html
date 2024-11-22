@@ -1,104 +1,126 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financeiro - FLERP</title>
-    <link rel="stylesheet" href="../Styles/financeiro.css">
+    <title>Sistema de Estoque</title>
+    <link rel="stylesheet" href="../Styles/estoque.css">
 </head>
 
 <body>
-    <header>
-        <h1>Financeiro - FLERP</h1>
-        <button class="voltar" onclick="window.location.href='index.html'">Voltar</button>
+    <header class="header">
+        <div class="logo">FLERP</div>
+        <div class="user-info">
+            <button class="voltar-btn">voltar</button>
+        </div>
     </header>
 
-    <main class="container">
-        <section class="cards-financeiros">
-            <div class="card">
+    <nav class="breadcrumb">
+        <span>Home</span>
+        <span>/</span>
+        <span>Financeiro</span>
+    </nav>
+
+    <div class="stats-container">
+        <div class="stat-card total-products">
+            <div class="stat-info">
                 <h3>Entradas</h3>
-                <p>R$ 20.000</p>
-
-
+                <div class="stat-value">R$ 20.000</div>
             </div>
-
-            <div class="card">
-                <h3>Saídas</h3>
-                <p>R$ 15.000</p>
-
-
-            </div>
-
-            <div class="card">
-                <h3>Lucro</h3>
-                <p>R$ 5.000</p>
-
-            </div>
-        </section>
-
-        <div class="content-container">
-            <div class="button-container">
-                <button>Entradas</button>
-                <button>Saídas</button>
-                <button>Total</button>
-                <button id="relatorio">Gerar relatorio </button>
-                <button id="novo">Novo</button>
-            </div>
+            <div class="stat-icon">💰</div>
         </div>
 
-        <table class="tabela-financeira">
+        <div class="stat-card missing-products">
+            <div class="stat-info">
+                <h3>Saídas</h3>
+                <div class="stat-value">R$ 15.000</div>
+            </div>
+            <div class="stat-icon">💸</div>
+        </div>
+
+        <div class="stat-card total-value">
+            <div class="stat-info">
+                <h3>Lucro</h3>
+                <div class="stat-value">R$ 5.000</div>
+            </div>
+            <div class="stat-icon">📈</div>
+        </div>
+    </div>
+
+    <div class="actions-bar">
+        <div class="action-buttons">
+            <button class="add-btn">+ Nova Transação</button>
+        </div>  
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Buscar transações...">
+        </div>
+    </div>
+
+    <section class="products-section">
+        <h2 class="products-title">Transações Financeiras</h2>
+        <table class="products-table">
             <thead>
                 <tr>
-                    <thead>
-                        <tr>
-                        </tr>
-                    </thead>
+                    <th>DESCRIÇÃO</th>
+                    <th>VALOR</th>
+                    <th>TIPO</th>
+                    <th>DATA</th>
+                    <th>AÇÕES</th>
                 </tr>
             </thead>
-
-            <tbody>
-
+            <tbody id="financialTableBody">
+                <!-- Transactions will be inserted here by JavaScript -->
             </tbody>
         </table>
 
-    </main>
+        <div class="pagination-container">
+            <div class="pagination-info">
+                Mostrando 1 até 10 de 50 resultados
+            </div>
+            <div class="pagination-buttons">
+                <button class="page-btn">&lt;</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">&gt;</button>
+            </div>
+        </div>
+    </section>
 
-    <!-- Adicione este HTML no final do seu <body>, antes do fechamento da tag -->
-    <div id="modal" class="modal">
+    <!-- Modal de Transação -->
+    <div id="transactionModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Nova Transação</h2>
-            <form id="transacaoForm">
-                <div class="form-group">
-                    <label for="descricao">Descrição:</label>
-                    <input type="text" id="descricao" name="descricao" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="valor">Valor:</label>
-                    <input type="number" id="valor" name="valor" step="0.01" min="0" required>
-                </div>
-
-                <div class="form-group checkbox-group">
-                    <label>Tipo:</label>
-                    <div class="checkbox-container">
-                        <input type="radio" id="entrada" name="tipo" value="Entrada" checked>
-                        <label for="entrada">Entrada</label>
-
-                        <input type="radio" id="saida" name="tipo" value="Saída">
-                        <label for="saida">Saída</label>
+            <div class="modal-header">
+                <h2 id="modalTitle">Nova Transação</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="transactionForm">
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+                        <input type="text" id="descricao" name="descricao" required>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn-save">Salvar</button>
-                    <button type="button" class="btn-cancel">Cancelar</button>
-                </div>
-            </form>
+                    <div class="form-group">
+                        <label for="valor">Valor</label>
+                        <input type="number" id="valor" name="valor" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo">Tipo</label>
+                        <select id="tipo" name="tipo" required>
+                            <option value="Entrada">Entrada</option>
+                            <option value="Saída">Saída</option>
+                        </select>
+                    </div>
+                    <input type="hidden" id="transacaoId" name="id">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn cancel-btn">Cancelar</button>
+                <button type="button" class="btn save-btn">Salvar</button>
+            </div>
         </div>
     </div>
+
     <script src="../js/financeiro.js"></script>
 </body>
-
 </html>

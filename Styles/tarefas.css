@@ -1,209 +1,188 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
 body {
-    background-color: rgb(240, 237, 237);
-    font-family: "Poppins", sans-serif;
-    margin: 0;
-    color: black;
-    font-weight: 100;
-    line-height: 1.7;
+    background-color: #f4f4f4;
 }
 
 header {
+    background-color: #059669;
+    color: white;
+    padding: 1rem;
     display: flex;
-    text-align: center;
-    background-color: #6cd856;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     justify-content: space-between;
     align-items: center;
 }
 
 header h1 {
-    flex: 1;
-    text-align: center;
-    font-size: 2em;
-    color: white;
-    font-weight: 600;
-    margin: 0;
+    font-size: 1.5rem;
 }
 
 .voltar {
-    padding: 10px 20px;
-    border: 2px solid white;
-    border-radius: 5px;
-    background-color: transparent;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid white;
     color: white;
-    font-size: 1em;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.voltar:hover {
-    background-color: white;
-    color: #6cd856;
+    border-radius: 4px;
 }
 
 .container {
-    max-width: 1200px;
+    padding: 1rem;
+    max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
-}
-
-main {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-section h2 {
-    color: rgb(77, 76, 76);
-    font-weight: 500;
-    text-align: center;
-    font-size: 1.5em;
 }
 
 .tarefas {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+}
+
+.tarefas h2 {
+    margin-bottom: 1rem;
+    color: #333;
 }
 
 .caixa-de-tarefas {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 0.75rem;
 }
 
 .tarefa {
-    background-color: #6cd856;
-    padding: 20px;
-    border-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #e9ecef;
 }
 
-.tarefa:hover {
-    transform: translateY(-2px);
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+.tarefa-info {
+    display: flex;
+    flex-direction: column;
 }
 
-.tarefa p {
-    color: white;
-    margin: 0;
-    font-weight: 300;
+.tarefa-nome {
+    font-weight: 600;
+    color: #333;
 }
 
-.tarefa.concluida p {
-    text-decoration: line-through;
-    opacity: 0.6;
+.tarefa-data {
+    color: #666;
+    font-size: 0.875rem;
 }
 
-.tarefa input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
+.tarefa-acoes {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-acao {
+    background: none;
+    border: none;
     cursor: pointer;
+    padding: 0.25rem;
 }
+
+.btn-concluir { color: #059669; }
+.btn-editar { color: #3b82f6; }
+.btn-excluir { color: #ef4444; }
 
 .button-container {
+    margin-top: 1rem;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
 }
 
 .add-tarefa {
-    background-color: #519e41;
+    background: #059669;
     color: white;
     border: none;
-    border-radius: 10px;
-    padding: 15px 30px;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.add-tarefa:hover {
-    background-color: rgb(49, 88, 55);
-    transform: translateY(-2px);
-}
-
-/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 500px;
     position: relative;
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .close-modal {
-    color: #aaa;
-    float: right;
+    position: absolute;
+    top: 10px;
+    right: 10px;
     font-size: 28px;
-    font-weight: bold;
+    color: #666;
     cursor: pointer;
 }
 
-.close-modal:hover {
-    color: black;
-}
-
-.modal-content h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
 .input-group {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
 .input-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
+    color: #333;
 }
 
 .input-group input[type="text"],
 .input-group input[type="date"] {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
 }
 
 .input-group.checkbox {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.5rem;
 }
 
-.modal-content .adicionar {
+.input-group.checkbox input[type="checkbox"] {
+    margin: 0;
+}
+
+.adicionar {
     width: 100%;
     padding: 10px;
-    background-color: #6cd856;
+    background-color: #059669;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-.modal-content .adicionar:hover {
-    background-color: #519e41;
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
 }

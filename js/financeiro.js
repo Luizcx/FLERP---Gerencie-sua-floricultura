@@ -1,171 +1,135 @@
-// Classe para representar uma transação financeira
-class Transacao {
-    constructor(id, descricao, valor, tipo, data) {
-        this.id = id;
-        this.descricao = descricao;
-        this.valor = valor;
-        this.tipo = tipo;
-        this.data = data;
-    }
-}
-
-// Array para armazenar as transações
-let transacoes = [
-    new Transacao(1, 'Semente de Flor', 20.00, 'Entrada', '2024-03-19'),
-    new Transacao(2, 'Flor crescida', 60.00, 'Entrada', '2024-03-19'),
-    new Transacao(3, 'Salario', 1500.00, 'Saída', '2024-03-20'),
-    new Transacao(4, 'Tulipa', 200.00, 'Entrada', '2024-03-20')
-];
-
-// Contador para gerar IDs únicos
-let ultimoId = 4;
-
-// Função para formatar data
-function formatarData(data) {
-    return new Date(data).toLocaleDateString('pt-BR');
-}
-
-// Função para atualizar os cards financeiros
-function atualizarCards() {
-    const entradas = transacoes
-        .filter(t => t.tipo === 'Entrada')
-        .reduce((acc, t) => acc + t.valor, 0);
-    
-    const saidas = transacoes
-        .filter(t => t.tipo === 'Saída')
-        .reduce((acc, t) => acc + t.valor, 0);
-    
-    const lucro = entradas - saidas;
-
-    document.querySelector('.cards-financeiros .card:nth-child(1) p')
-        .textContent = `R$ ${entradas.toFixed(2)}`;
-    document.querySelector('.cards-financeiros .card:nth-child(2) p')
-        .textContent = `R$ ${saidas.toFixed(2)}`;
-    document.querySelector('.cards-financeiros .card:nth-child(3) p')
-        .textContent = `R$ ${lucro.toFixed(2)}`;
-}
-
-// Função para atualizar a tabela
-function atualizarTabela(transacoesExibidas = transacoes) {
-    const tbody = document.querySelector('.tabela-financeira tbody');
-    tbody.innerHTML = '';
-
-    transacoesExibidas.forEach(transacao => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${transacao.id}</td>
-            <td>${transacao.descricao}</td>
-            <td>R$ ${transacao.valor.toFixed(2)}</td>
-            <td>${transacao.tipo}</td>
-            <td>${formatarData(transacao.data)}</td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-// Função para adicionar nova transação
-function adicionarTransacao(descricao, valor, tipo) {
-    ultimoId++;
-    const novaTransacao = new Transacao(
-        ultimoId,
-        descricao, 
-        valor, 
-        tipo,
-        new Date().toISOString().split('T')[0]
-    );
-    transacoes.push(novaTransacao);
-    atualizarCards();
-    atualizarTabela();
-}
-
-// Funções do Modal
-function abrirModal() {
-    document.getElementById('modal').style.display = 'block';
-}
-
-function fecharModal() {
-    document.getElementById('modal').style.display = 'none';
-    document.getElementById('transacaoForm').reset();
-}
-
-// Event Listeners para os botões de filtro
 document.addEventListener('DOMContentLoaded', () => {
-    // Atualizar o cabeçalho da tabela para incluir as novas colunas
-    const thead = document.querySelector('.tabela-financeira thead tr');
-    thead.innerHTML = `
-        <th>ID</th>
-        <th>Descrição</th>
-        <th>Valor</th>
-        <th>Tipo</th>
-        <th>Data</th>
-    `;
+    const transactionModal = document.getElementById('transactionModal');
+    const addTransactionBtn = document.querySelector('.add-btn');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const cancelModalBtn = document.querySelector('.cancel-btn');
+    const saveTransactionBtn = document.querySelector('.save-btn');
+    const transactionForm = document.getElementById('transactionForm');
+    const financialTableBody = document.getElementById('financialTableBody');
+    const searchInput = document.querySelector('.search-input');
 
-    // Modal Event Listeners
-    document.getElementById('novo').addEventListener('click', abrirModal);
-    
-    document.querySelector('.close').addEventListener('click', fecharModal);
-    
-    document.querySelector('.btn-cancel').addEventListener('click', fecharModal);
-    
-    window.addEventListener('click', (event) => {
-        if (event.target == document.getElementById('modal')) {
-            fecharModal();
-        }
-    });
+    let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    let editingTransactionId = null;
 
-    // Form Submit Handler
-    document.getElementById('transacaoForm').addEventListener('submit', (e) => {
+    function renderTransactions(filteredTransactions = null) {
+        const displayTransactions = filteredTransactions || transactions;
+        financialTableBody.innerHTML = '';
+
+        displayTransactions.forEach((transaction, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${transaction.descricao}</td>
+                <td>R$ ${transaction.valor.toFixed(2)}</td>
+                <td>${transaction.tipo}</td>
+                <td>${new Date().toLocaleDateString()}</td>
+                <td>
+                    <button class="action-btn edit-btn" data-id="${index}">✏️</button>
+                    <button class="action-btn delete-btn" data-id="${index}">🗑️</button>
+                </td>
+            `;
+            financialTableBody.appendChild(row);
+        });
+
+        updateStats();
+        attachActionListeners();
+    }
+
+    function updateStats() {
+        const entradas = transactions
+            .filter(t => t.tipo === 'Entrada')
+            .reduce((sum, t) => sum + t.valor, 0);
+        const saidas = transactions
+            .filter(t => t.tipo === 'Saída')
+            .reduce((sum, t) => sum + t.valor, 0);
+        const lucro = entradas - saidas;
+
+        document.querySelector('.total-products .stat-value').textContent = `R$ ${entradas.toFixed(2)}`;
+        document.querySelector('.missing-products .stat-value').textContent = `R$ ${saidas.toFixed(2)}`;
+        document.querySelector('.total-value .stat-value').textContent = `R$ ${lucro.toFixed(2)}`;
+    }
+
+    function saveTransaction(e) {
         e.preventDefault();
-        
         const descricao = document.getElementById('descricao').value;
         const valor = parseFloat(document.getElementById('valor').value);
-        const tipo = document.querySelector('input[name="tipo"]:checked').value;
-        
-        adicionarTransacao(descricao, valor, tipo);
-        fecharModal();
+        const tipo = document.getElementById('tipo').value;
+
+        const transaction = { descricao, valor, tipo };
+
+        if (editingTransactionId !== null) {
+            transactions[editingTransactionId] = transaction;
+            editingTransactionId = null;
+        } else {
+            transactions.push(transaction);
+        }
+
+        localStorage.setItem('transactions', JSON.stringify(transactions));
+        renderTransactions();
+        closeModal();
+    }
+
+    function openModal(transaction = null) {
+        if (transaction) {
+            document.getElementById('descricao').value = transaction.descricao;
+            document.getElementById('valor').value = transaction.valor;
+            document.getElementById('tipo').value = transaction.tipo;
+            document.getElementById('modalTitle').textContent = 'Editar Transação';
+        } else {
+            transactionForm.reset();
+            document.getElementById('modalTitle').textContent = 'Nova Transação';
+        }
+        transactionModal.style.display = 'block';
+    }
+
+    function closeModal() {
+        transactionModal.style.display = 'none';
+    }
+
+    function attachActionListeners() {
+        const editBtns = document.querySelectorAll('.edit-btn');
+        const deleteBtns = document.querySelectorAll('.delete-btn');
+
+        editBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const index = btn.getAttribute('data-id');
+                editingTransactionId = index;
+                openModal(transactions[index]);
+            });
+        });
+
+        deleteBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const index = btn.getAttribute('data-id');
+                transactions.splice(index, 1);
+                localStorage.setItem('transactions', JSON.stringify(transactions));
+                renderTransactions();
+            });
+        });
+    }
+
+    function searchTransactions() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredTransactions = transactions.filter(transaction =>
+            transaction.descricao.toLowerCase().includes(searchTerm)
+        );
+        renderTransactions(filteredTransactions);
+    }
+
+    addTransactionBtn.addEventListener('click', () => openModal());
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelModalBtn.addEventListener('click', closeModal);
+    saveTransactionBtn.addEventListener('click', saveTransaction);
+    searchInput.addEventListener('input', searchTransactions);
+
+    // Initial render
+    renderTransactions();
+
+    // Logout functionality
+    document.querySelector('.voltar-btn').addEventListener('click', () => {
+       
+            // Implementar lógica de logout
+            window.location.href = 'index.html';
+    
     });
-
-    // Botão Entradas
-    document.querySelector('.button-container button:nth-child(1)')
-        .addEventListener('click', () => {
-            const entradasFiltradas = transacoes.filter(t => t.tipo === 'Entrada');
-            atualizarTabela(entradasFiltradas);
-        });
-
-    // Botão Saídas
-    document.querySelector('.button-container button:nth-child(2)')
-        .addEventListener('click', () => {
-            const saidasFiltradas = transacoes.filter(t => t.tipo === 'Saída');
-            atualizarTabela(saidasFiltradas);
-        });
-
-    // Botão Total
-    document.querySelector('.button-container button:nth-child(3)')
-        .addEventListener('click', () => {
-            atualizarTabela();
-        });
-
-    // Botão Gerar Relatório
-    document.getElementById('relatorio').addEventListener('click', () => {
-        const relatorio = {
-            entradas: transacoes.filter(t => t.tipo === 'Entrada')
-                .reduce((acc, t) => acc + t.valor, 0),
-            saidas: transacoes.filter(t => t.tipo === 'Saída')
-                .reduce((acc, t) => acc + t.valor, 0),
-            totalTransacoes: transacoes.length,
-            dataInicio: formatarData(transacoes[0].data),
-            dataFim: formatarData(transacoes[transacoes.length - 1].data)
-        };
-
-        alert(`Relatório Financeiro:
-        Período: ${relatorio.dataInicio} a ${relatorio.dataFim}
-        Total de Entradas: R$ ${relatorio.entradas.toFixed(2)}
-        Total de Saídas: R$ ${relatorio.saidas.toFixed(2)}
-        Lucro: R$ ${(relatorio.entradas - relatorio.saidas).toFixed(2)}
-        Número de Transações: ${relatorio.totalTransacoes}`);
-    });
-
-    // Inicialização
-    atualizarCards();
-    atualizarTabela();
 });
+

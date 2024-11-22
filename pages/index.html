@@ -4,46 +4,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLERP - seu sistema de gerenciamento de floricultura</title>
-    <link rel="stylesheet" href="../Styles/index.css">
+    <title>FLERP - Sistema de Floricultura</title>
+    <link href="../Styles/index.css" rel="stylesheet">
 </head>
 
 <body>
-    <header>
-        <h1>FLERP - Sistema de Floricultura</h1>
-        <button class="deslogar" onclick="window.location.href='login.html'">Deslogar</button>
-    </header>
+    <nav class="nav">
+        <div class="container nav-content">
+            <div class="nav-brand">
+                <i class="fas fa-flower nav-brand-icon"></i>
+                <h1 class="nav-brand-title">FLERP</h1>
+            </div>
+            <div class="nav-user">
+                <button class="sair-btn">Deslogar</button>
+            </div>
+    </nav>
 
-    <main>
-        <section class="inicio">
-            <h2>Seja bem-vindo ao FLERP!</h2>
-            <p>O seu sistema de gerenciamento de floricultura</p>
-        </section>
-
-        <section class="dashboards">
-            <div class="bloco">
-                <h3>Tarefas</h3>
-                <p>tarefas pendentes <b>3</b>.</p>
-                <p>próxima tarefa: Regar plantas.</p>
-                <button onclick="window.location.href='tarefas.html'" class="botao">ver tarefas</button>
+    <div class="container">
+        <div class="grid-3-col">
+            <!-- Vendas do Dia -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-cash-register icon icon-green"></i>
+                        Vendas do Dia
+                    </h3>
+                    <a href="../pages/financeiro.html" class="hover-underline text-sm">Ver todos</a>
+                </div>
+                <div class="card-metric card-metric-green">R$ </div>
+                <div class="text-sm text-gray-500">
+                    <span class="text-green">0%</span> em relação a ontem
+                </div>
+                <span class="card-subtitle">Hoje</span>
             </div>
 
-            <div class="bloco">
-                <h3>Financeiro</h3>
-                <p>Venda diária: R$ 1.500</p>
-                <p>Venda Mensal: R$ 8.000</p>
-                <button onclick="window.location.href='financeiro.html'" class="botao">ver balanço</button>
+            <!-- Estoque -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-box icon icon-blue"></i>
+                        Status do Estoque
+                    </h3>
+                    <a href="../pages/estoque.html" class="hover-underline text-sm">Ver detalhes</a>
+                </div>
+                <div class="grid-2-col">
+                    <div>
+                        <div class="card-metric card-metric-blue">0</div>
+                        <div class="text-sm text-gray-500">Em estoque</div>
+                    </div>
+                    <div>
+                        <div class="card-metric" style="color: #ef4444;">0</div>
+                        <div class="text-sm text-gray-500">Em falta</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="bloco">
-                <h3>Produtos</h3>
-                <p>Em estoque: 150</p>
-                <p>Em falta: 10</p>
-                <button onclick="window.location.href='estoque.html'" class="botao">ver estoque</button>
+            <!-- Tarefas -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i style="color: #6b46c1;"></i>
+                        Tarefas Pendentes
+                    </h3>
+                    <a href="../pages/tarefas.html" class="hover-underline text-sm">Ver todas</a>
+                </div>
+                <div class="card-metric" style="color: #6b46c1;">0</div>
+                <div>
+                    <div class="text-sm font-bold">Próxima tarefa:</div>
+                    <div class="product-list-item">...</div>
+                </div>
             </div>
-        </section>
+        </div>
 
-    </main>
+        <!-- Segunda linha de cards -->
+        <div class="grid-2-col">
+            <!-- Gráfico de Vendas -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-chart-line icon" style="color: #4f46e5;"></i>
+                        Vendas Mensais
+                    </h3>
+                    <span class="card-subtitle">Últimos 30 dias</span>
+                </div>
+                <div class="card-metric" style="color: #4f46e5; margin-bottom: 1rem;">R$ 000,00</div>
+                <div class="chart-placeholder">
+                    Gráficos
+                </div>
+            </div>
+
+            <!-- Produtos Populares -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Produtos Mais Vendidos
+                    </h3>
+                </div>
+                <div>
+                    <div class="product-list-item">
+                        <div class="product-list-item">
+                            <div class="product-indicator" style="background-color: #ef4444;"></div>
+                            <span>...</span>
+                        </div>
+                        <span class="text-gray-500">0 un.</span>
+                    </div>
+                    <div class="product-list-item">
+                        <div class="product-list-item">
+                            <div class="product-indicator" style="background-color: #6b46c1;"></div>
+                            <span>...</span>
+                        </div>
+                        <span class="text-gray-500">0 un.</span>
+                    </div>
+                    <div class="product-list-item">
+                        <div class="product-list-item">
+                            <div class="product-indicator" style="background-color: #eab308;"></div>
+                            <span>...</span>
+                        </div>
+                        <span class="text-gray-500">0 un.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="../js/index.js"></script>
 </body>
 
 </html>

@@ -2,91 +2,73 @@ document.addEventListener('DOMContentLoaded', () => {
     const tarefasContainer = document.getElementById('tarefasContainer');
     const novaTarefaBtn = document.getElementById('novaTarefaBtn');
     const novaTarefaModal = document.getElementById('novaTarefaModal');
-    const fecharModal = document.querySelector('.close-modal');
+    const closeModalBtn = document.querySelector('.close-modal');
     const novaTarefaForm = document.getElementById('novaTarefaForm');
 
-    // Carregar tarefas do localStorage
     let tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
 
-    // Função para salvar tarefas no localStorage
-    function salvarTarefas() {
-        localStorage.setItem('tarefas', JSON.stringify(tarefas));
+    function renderTarefas() {
+        tarefasContainer.innerHTML = '';
+        tarefas.forEach((tarefa, index) => {
+            const tarefaElement = document.createElement('div');
+            tarefaElement.classList.add('tarefa');
+            tarefaElement.innerHTML = `
+                <div class="tarefa-info">
+                    <span class="tarefa-nome">${tarefa.nome}</span>
+                    <span class="tarefa-data">${tarefa.dataConclusao} ${tarefa.diaria ? '(Diária)' : ''}</span>
+                </div>
+                <div class="tarefa-acoes">
+                    <button class="btn-acao btn-concluir" data-index="${index}">✓</button>
+                    <button class="btn-acao btn-editar" data-index="${index}">✏️</button>
+                    <button class="btn-acao btn-excluir" data-index="${index}">🗑️</button>
+                </div>
+            `;
+            tarefasContainer.appendChild(tarefaElement);
+        });
+        attachTarefaListeners();
     }
 
-    // Função para renderizar tarefas
-    function renderizarTarefas() {
-        tarefasContainer.innerHTML = '';
-        
-        tarefas.forEach((tarefa, index) => {
-            const tarefaDiv = document.createElement('div');
-            tarefaDiv.classList.add('tarefa');
-            
-            if (tarefa.concluida) {
-                tarefaDiv.classList.add('concluida');
-            }
-            
-            const tarefaP = document.createElement('p');
-            tarefaP.textContent = `${tarefa.nome} (Conclusão: ${tarefa.dataConclusao})`;
-            
-            const checkboxInput = document.createElement('input');
-            checkboxInput.type = 'checkbox';
-            checkboxInput.checked = tarefa.concluida;
-            
-            checkboxInput.addEventListener('change', () => {
-                tarefa.concluida = checkboxInput.checked;
-                
-                if (tarefa.diaria && tarefa.concluida) {
-                    // Mantém tarefa diária marcada como concluída
-                    tarefaDiv.classList.add('concluida');
-                } else if (!tarefa.diaria && tarefa.concluida) {
-                    // Remove tarefas não-diárias quando concluídas
-                    tarefas.splice(index, 1);
-                }
-                
-                salvarTarefas();
-                renderizarTarefas();
+    function attachTarefaListeners() {
+        document.querySelectorAll('.btn-concluir').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const index = btn.getAttribute('data-index');
+                // Implement task completion logic
+                alert('Tarefa concluída!');
             });
-            
-            tarefaDiv.appendChild(tarefaP);
-            tarefaDiv.appendChild(checkboxInput);
-            
-            tarefasContainer.appendChild(tarefaDiv);
+        });
+
+        document.querySelectorAll('.btn-excluir').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const index = btn.getAttribute('data-index');
+                tarefas.splice(index, 1);
+                localStorage.setItem('tarefas', JSON.stringify(tarefas));
+                renderTarefas();
+            });
         });
     }
 
-    // Abrir modal de nova tarefa
     novaTarefaBtn.addEventListener('click', () => {
         novaTarefaModal.style.display = 'block';
     });
 
-    // Fechar modal
-    fecharModal.addEventListener('click', () => {
+    closeModalBtn.addEventListener('click', () => {
         novaTarefaModal.style.display = 'none';
     });
 
-    // Adicionar nova tarefa
     novaTarefaForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
         const nome = document.getElementById('nomeTarefa').value;
         const dataConclusao = document.getElementById('dataConclusao').value;
         const diaria = document.getElementById('tarefaDiaria').checked;
+
+        tarefas.push({ nome, dataConclusao, diaria });
+        localStorage.setItem('tarefas', JSON.stringify(tarefas));
         
-        tarefas.push({
-            nome,
-            dataConclusao,
-            diaria,
-            concluida: false
-        });
-        
-        salvarTarefas();
-        renderizarTarefas();
-        
-        // Fechar modal e resetar form
         novaTarefaModal.style.display = 'none';
         novaTarefaForm.reset();
+        renderTarefas();
     });
 
-    // Inicializar renderização de tarefas
-    renderizarTarefas();
+    // Initial render
+    renderTarefas();
 });
